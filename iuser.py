@@ -16,10 +16,10 @@ class OAuth_api:
     def __init__(self, isAuth):
         """isAuth == True, using authentication connect, isAuth == False, using public conncet"""
         self.isAuth = isAuth
-        if isAuth == True
+        if isAuth == True:
             self.api = twitter.Api(self.consumer_key, self.consumer_secret,
                     self.access_token_key, self.access_token_secret)
-        else
+        else:
             self.api = twitter.Api()
 
     def create_many_friendship(self, users):
