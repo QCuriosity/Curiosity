@@ -30,13 +30,32 @@ while(i < 600 ):
         continue
     for u in users:
         user['id'] = u.GetId()
-        user['name'] = u.GetName()
-        user['screen_name'] = u.GetScreenName()
+        user['contributors_enabled'] = u.GetContributorsEnabled()
         user['description'] = u.GetDescription()
+        user['favourites_count'] = u.GetFavouritesCount()
+        user['followers_count'] = u.GetFollowersCount()
+        user['geo_enabled'] = u.GetGeoEnabled()
+        user['lang'] = u.GetLang()
+        user['location'] = u.GetLocation()
+        user['name'] = u.GetName()
+        user['notifications'] = u.GetNotifications()
+        user['protected'] = u.GetProtected()
+        user['screen_name'] = u.GetScreenName()
+        user['statuses_count'] = u.GetStatusesCount()
+        user['time_zone'] = u.GetTimeZone()
+        user['url'] = u.GetUrl()
+        user['utc_offset'] = u.GetUtcOffset()
+        user['verified'] = u.GetVerified()
         user['created_at'] = my.conver_time_format(u.GetCreatedAt())
-        insert = "INSERT INTO user_t(id, name, screen_name, description, created_at) "
-        insert += " VALUES(%(id)s, %(name)s, %(screen_name)s, %(description)s, %(created_at)s)"
+        user['friends_count'] = u.GetFriendsCount()
+        insert = "INSERT INTO user_t(id, contributors_enabled, description, favourites_count, followers_count, "
+        insert += "geo_enabled, lang, location, name, notifications, protected, screen_name, statuses_count, "
+        insert += "time_zone, url, utc_offset, verified, created_at, friends_count) "
+        insert += " VALUES(%(id)s, %(contributors_enabled)s, %(description)s, %(favourites_count)s, %(followers_count)s, "
+        insert += "%(geo_enabled)s, %(lang)s, %(location)s, %(name)s, %(notifications)s, %(protected)s, %(screen_name)s, %(statuses_count)s, "
+        insert += "%(time_zone)s, %(url)s, %(utc_offset)s, %(verified)s, %(created_at)s, %(friends_count)s)"
         try:
+            print insert, user
             cur.execute(insert, user)
             db.commit()
         except MySQLdb.Error, e:
