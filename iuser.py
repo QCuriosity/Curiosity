@@ -47,7 +47,6 @@ class OAuth_api:
     def conver_time_format(self, src_time):
         SRC_TIMEFORMAT = '%a %b %d %H:%M:%S +0000 %Y'
         RC_TIMEFORMAT = '%Y-%m-%d %H:%M:%S'
-        print src_time
         rc_time = time.strftime(RC_TIMEFORMAT, time.strptime(src_time, SRC_TIMEFORMAT))
         return rc_time
 
