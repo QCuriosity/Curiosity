@@ -54,15 +54,7 @@ class OAuth_api:
         db = MySQLdb.connect('localhost', 'root', 'password', 'curiosity', charset = 'utf8')
         cur = db.cursor()
         user['created_at'] = self.conver_time_format(user['created_at'])
-        insert = "INSERT INTO user_t(id, contributors_enabled, create_at, description,\
-favourites_count, followers_count, geo_enabled, lang, location, name,\
-notifications, protected, screen_name, statuses_count, time_zone, url,\
-utc_offset, verified) VALUES(%(id)s, %(contributors_enabled)s,\
-%(create_at)s, %(description)s,%(favourites_count)s, %(followers_count)s,\
-%(geo_enabled)s, %(lang)s, %(location)s, %(name)s,%(no)s, \
-%(protected)s, %(screen_name)s, %(statuses_count)s, %(time_zone)s, %(url)s,\
-%(utc_offset)s, %(verified)s)"
-        print insert
+        
         cur.execute(insert, user)
         db.commit()
         if db:
