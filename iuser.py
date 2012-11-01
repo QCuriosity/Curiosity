@@ -50,12 +50,3 @@ class OAuth_api:
         rc_time = time.strftime(RC_TIMEFORMAT, time.strptime(src_time, SRC_TIMEFORMAT))
         return rc_time
 
-    def friends2db(self, user):
-        db = MySQLdb.connect('localhost', 'root', 'password', 'curiosity', charset = 'utf8')
-        cur = db.cursor()
-        user['created_at'] = self.conver_time_format(user['created_at'])
-        
-        cur.execute(insert, user)
-        db.commit()
-        if db:
-            db.close()
