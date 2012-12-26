@@ -10,14 +10,12 @@ cur = db.cursor()
 
 query = "SELECT text FROM statuses"
 cur.execute(query)
-rows = cur.fetchall()
-sentences = []
-for r in rows:
+numrow = int(cur.rowcount)
+ana = analysis()
+for r in xrange(numrow):
     if (type(r[0]) == type(u' ')):
-        sentences.append(r[0])
+        ana.addAnalysisSentence(r[0])
     
-ana = analysis(sentences)
 
-ana.splitAllSentences()
 
 print ana.wordRate
