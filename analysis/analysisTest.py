@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/ender/Curiosity/database")
+sys.path.append("../database")
 from mysql import *
 from analysis import * 
 import MySQLdb
