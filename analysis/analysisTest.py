@@ -1,7 +1,7 @@
 import sys
 sys.path.append("../database")
 from mysql import *
-from analysis import * 
+from analysis import *
 import MySQLdb
 import io
 
@@ -13,17 +13,15 @@ user = 'root'
 passwd = 'password'
 dbName = 'curiosity'
 
+def generateDateList(startYear, count):
+    monthList = []
+    for y in xrange(count):
+        for m in xrange(1, 13):
+            pattern = "%d-%d-01" % (startYear+y, m)
+            monthList.append(pattern)
+    return monthList
 
-year = 2010
-yearCount = 6
-monthList = []
-for y in xrange(yearCount):
-    for m in xrange(1, 13):
-        if y == 2010 and m <=10:
-            continue
-        pattern = "%d-%d-01" % (year+y, m)
-        monthList.append(pattern)
-
+monthList = generateDateList(2006, 7)
 
 for m in monthList:
     ana = analysis()
@@ -33,6 +31,6 @@ for m in monthList:
         if (type(r[0]) == type(u' ')):
             ana.addAnalysisSentence(r[0])
     for k in ana.wordRate.keys():
-        db.saveMonthlyData(k, str(ana.wordRate[k]), m) 
+        db.saveMonthlyData(k, str(ana.wordRate[k]), m)
     db.close()
     print "%s done!" % m
