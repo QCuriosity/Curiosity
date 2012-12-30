@@ -8,8 +8,8 @@ import io
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-host = 'localhost'
-user = 'root'
+host = '10.30.154.216'
+user = 'curiosity'
 passwd = 'password'
 dbName = 'curiosity'
 
@@ -21,7 +21,7 @@ def generateDateList(startYear, count):
             monthList.append(pattern)
     return monthList
 
-monthList = generateDateList(2006, 7)
+monthList = generateDateList(2005, 9)
 
 for m in monthList:
     ana = analysis()
@@ -31,6 +31,9 @@ for m in monthList:
         if (type(r[0]) == type(u' ')):
             ana.addAnalysisSentence(r[0])
     for k in ana.wordRate.keys():
-        db.saveMonthlyData(k, str(ana.wordRate[k]), m)
+        try:
+            db.saveMonthlyData(k, str(ana.wordRate[k]), m)
+        except:
+            continue
     db.close()
     print "%s done!" % m
