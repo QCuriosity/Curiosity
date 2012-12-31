@@ -11,31 +11,40 @@ def generateDateList(startYear, count):
             monthList.append(pattern)
     return monthList
 
-monthList = generateDateList(2006, 7)
+monthList = generateDateList(2011, 2)
 
 host = '10.30.154.216'
 user = 'curiosity'
 passwd = 'password'
 dbName = 'curiosity'
 
-db = mysql(host, user, passwd, dbName)
-db.connect()
 
-print monthList
-allCount = []
-for m in monthList:
-    rows = db.getMonthlyKeywordCount('python', m)
-    print rows
-    if rows == ():
-        allCount.append(0)
-    else:
-        allCount.append(int(rows[0][0]))
-db.close()
 
-title = "2012 python trend"
-pylab.plot(range(1, len(allCount)+1), allCount)
-pylab.title(title)
-pylab.legend(('count', 'month'))
-##pylab.xlabel(100)
-##pylab.ylabel(100)
-pylab.show()
+keywords = ['python', 'php', 'c++', 'c#', 'java', 'javascript', 'perl']
+
+def plotMonthlyTrend(keywords):
+    db = mysql(host, user, passwd, dbName)
+    db.connect()
+    allKeywordTrend = []
+    for k in keywords:
+        allCount = []
+        for m in monthList:
+            rows = db.getMonthlyKeywordCount(k, m)
+            print rows
+            if rows == ():
+                allCount.append(0)
+            else:
+                allCount.append(int(rows[0][0]))
+        allKeywordTrend.append(allCount)
+    db.close()
+
+    title = "2012 trend"
+    for p in allKeywordTrend:
+        pylab.plot(range(1, len(p)+1), p)
+    pylab.title(title)
+    pylab.legend(keywords)
+    ##pylab.xlabel(100)
+    ##pylab.ylabel(100)
+    pylab.show()
+
+plotMonthlyTrend(keywords)
