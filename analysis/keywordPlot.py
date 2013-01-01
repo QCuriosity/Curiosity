@@ -22,7 +22,7 @@ dbName = 'curiosity'
 
 keywords = ['python', 'php', 'c++', 'c#', 'java', 'javascript', 'perl']
 
-def plotMonthlyTrend(keywords):
+def plotMonthlyTrend(keywords, title, ):
     db = mysql(host, user, passwd, dbName)
     db.connect()
     allKeywordTrend = []
@@ -38,13 +38,12 @@ def plotMonthlyTrend(keywords):
         allKeywordTrend.append(allCount)
     db.close()
 
-    title = "2012 trend"
     for p in allKeywordTrend:
         pylab.plot(range(1, len(p)+1), p)
     pylab.title(title)
     pylab.legend(keywords)
-    ##pylab.xlabel(100)
-    ##pylab.ylabel(100)
+    pylab.xlabel("month")
+    pylab.ylabel("frequency of occurrence")
     pylab.show()
 
-plotMonthlyTrend(keywords)
+plotMonthlyTrend(keywords, "programming language trend")
