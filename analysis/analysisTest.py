@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../database")
+sys.path.append("../database/")
 from mysql import *
 from analysis import *
 import MySQLdb
@@ -8,8 +8,8 @@ import io
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
-host = '10.30.154.216'
-user = 'curiosity'
+host = 'localhost'
+user = 'root'
 passwd = 'password'
 dbName = 'curiosity'
 
@@ -21,7 +21,7 @@ def generateDateList(startYear, count):
             monthList.append(pattern)
     return monthList
 
-monthList = generateDateList(2005, 9)
+monthList = generateDateList(2006, 9)
 
 for m in monthList:
     ana = analysis()
