@@ -32,7 +32,7 @@ for m in monthList:
             ana.addAnalysisSentence(r[0])
     for k in ana.wordRate.keys():
         try:
-            db.saveMonthlyData(k, str(ana.wordRate[k]), m)
+            db.insertKeyword2DB(k, str(ana.wordRate[k]), m)
         except:
             continue
     db.close()
