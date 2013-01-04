@@ -10,7 +10,7 @@ class mysql:
         self.passwd = passwd
         self.dbName = dbName
         self.charset = charset
-        self.logfile = io.open("../logs/mysql.log", 'a')
+        self.logfile = open("../logs/mysql.log", 'a')
 
     def connect(self):
         self.con = MySQLdb.connect(self.host, self.userName, self.passwd, self.dbName, charset = self.charset)
@@ -84,3 +84,11 @@ class mysql:
         currentTime = self.getCurrentTime()
         err = "%s: %s Error %d: %s\n" % (currentTime, funtionName, errorInfo.args[0], errorInfo.args[1])
         self.logfile.write(err)
+
+    def getMonthlyTweetCount(self, date):
+        query = "SELECT COUNT(id) FROM status_t WHERE DATE_FORMAT(created_at, '%%Y-%%m')=DATE_FORMAT('%s', '%%Y-%%m')" %  date
+        try:
+            self.cur.execute(query)
+        except MySQLdb.Error, e:
+            self.writeLog('getMonthlyTweetCount()', e)
+        return self.cur.fetchall()

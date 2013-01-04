@@ -1,5 +1,5 @@
 import sys
-sys.path.append("../database")
+sys.path.append("../database/")
 from mysql import *
 import pylab
 
@@ -22,7 +22,9 @@ dbName = 'curiosity'
 
 keywords = ['python', 'php', 'c++', 'c#', 'java', 'javascript', 'perl']
 
-def plotMonthlyTrend(keywords, title, ):
+
+
+def plotMonthlyTrend(keywords, title, monthList):
     db = mysql(host, user, passwd, dbName)
     db.connect()
     allKeywordTrend = []
@@ -35,6 +37,7 @@ def plotMonthlyTrend(keywords, title, ):
                 allCount.append(0)
             else:
                 allCount.append(int(rows[0][0]))
+            print db.getMonthlyTweetCount(m)
         allKeywordTrend.append(allCount)
     db.close()
 
@@ -46,4 +49,4 @@ def plotMonthlyTrend(keywords, title, ):
     pylab.ylabel("frequency of occurrence")
     pylab.show()
 
-plotMonthlyTrend(keywords, "programming language trend")
+plotMonthlyTrend(keywords, "programming language trend", monthList)
