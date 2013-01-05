@@ -11,18 +11,12 @@ def generateDateList(startYear, count):
             monthList.append(pattern)
     return monthList
 
-monthList = generateDateList(2011, 2)
+monthList = generateDateList(2010, 2)
 
 host = '10.30.154.216'
 user = 'curiosity'
 passwd = 'password'
 dbName = 'curiosity'
-
-
-
-keywords = ['python', 'php', 'c++', 'c#', 'java', 'javascript', 'perl']
-
-
 
 def plotMonthlyTrend(keywords, title, monthList):
     db = mysql(host, user, passwd, dbName)
@@ -33,11 +27,16 @@ def plotMonthlyTrend(keywords, title, monthList):
         for m in monthList:
             rows = db.getMonthlyKeywordCount(k, m)
             print rows
-            if rows == ():
-                allCount.append(0)
+            count = 0
+            for r in rows:
+                count += r[0]
+            persent = count*1.0
+            cc = db.getMonthlyTweetCount(m)
+            if cc == 0:
+                persent = 0.0
             else:
-                allCount.append(int(rows[0][0]))
-            print db.getMonthlyTweetCount(m)
+                persent /= cc
+            allCount.append(persent)
         allKeywordTrend.append(allCount)
     db.close()
 
@@ -49,4 +48,18 @@ def plotMonthlyTrend(keywords, title, monthList):
     pylab.ylabel("frequency of occurrence")
     pylab.show()
 
-plotMonthlyTrend(keywords, "programming language trend", monthList)
+def saveMonthlyTweetCount(monthList):
+    db = mysql(host, user, passwd, dbName)
+    db.connect()
+    for m in monthList:
+        db.computeAndSaveMonthlyTweetCount(m)
+    db.close()
+
+languageKeywords = ['python', 'c#', 'c++', 'basic', 'java', 'ada', 'matlab', 'lua', 'assembly', 'lisp', 'ruby', 'perl', 'bash', 'fortran']
+companyKeywords = ['dell', 'microsoft', 'google', 'apple', 'amazon', 'facebook', 'twitter', 'ibm', 'hp']
+#keywords =['the']
+
+#saveMonthlyTweetCount(monthList)
+#plotMonthlyTrend(languageKeywords, "programming language trend", monthList)
+plotMonthlyTrend(companyKeywords, "company keyword trend", monthList)
+

@@ -70,7 +70,7 @@ class mysql:
             self.writeLog('saveMonthlyData()', e)
 
     def getMonthlyKeywordCount(self, keyword, date):
-        query = "SELECT count FROM monthlyAnalysis WHERE keyword='%s' and DATE_FORMAT(date, '%%Y-%%m')=DATE_FORMAT('%s', '%%Y-%%m')" % (keyword, date)
+        query = "SELECT count FROM monthlyAnalysis WHERE keyword like '%%%s%%' and DATE_FORMAT(date, '%%Y-%%m')=DATE_FORMAT('%s', '%%Y-%%m')" % (keyword, date)
         try:
             self.cur.execute(query)
         except MySQLdb.Error, e:
@@ -85,10 +85,34 @@ class mysql:
         err = "%s: %s Error %d: %s\n" % (currentTime, funtionName, errorInfo.args[0], errorInfo.args[1])
         self.logfile.write(err)
 
-    def getMonthlyTweetCount(self, date):
+    def computeAndSaveMonthlyTweetCount(self, date):
         query = "SELECT COUNT(id) FROM status_t WHERE DATE_FORMAT(created_at, '%%Y-%%m')=DATE_FORMAT('%s', '%%Y-%%m')" %  date
         try:
             self.cur.execute(query)
         except MySQLdb.Error, e:
             self.writeLog('getMonthlyTweetCount()', e)
-        return self.cur.fetchall()
+        rows = self.cur.fetchall()
+        print rows
+        select = "insert into monthlyAnalysis(keyword, date, count) VALUES('TWEET_COUNT', '%s', %d)"
+        if rows == ():
+            select = select % (date, 0)
+        else:
+            select = select % (date, rows[0][0])
+        try:
+            self.cur.execute(select)
+            self.con.commit()
+        except MySQLdb.Error, e:
+            self.writeLog('getMonthlyTweetCount()', e)
+
+    def getMonthlyTweetCount(self, date):
+        query = "SELECT count FROM monthlyAnalysis WHERE keyword='TWEET_COUNT' and DATE_FORMAT(date, '%%Y-%%m')=DATE_FORMAT('%s', '%%Y-%%m')" % date
+        try:
+            self.cur.execute(query)
+        except MySQLdb.Error, e:
+            self.writeLog('getMonthlyTweetCount()', e)
+
+        rows = self.cur.fetchall()
+        if rows == ():
+            return 0
+        else:
+            return rows[0][0]
