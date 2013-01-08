@@ -84,8 +84,6 @@ class mysql:
         currentTime = self.getCurrentTime()
         err = "%s: %s Error %d: %s\n" % (currentTime, funtionName, errorInfo.args[0], errorInfo.args[1])
         self.logfile.write(err)
-<<<<<<< HEAD
-=======
 
     def computeAndSaveMonthlyTweetCount(self, date):
         query = "SELECT COUNT(id) FROM status_t WHERE DATE_FORMAT(created_at, '%%Y-%%m')=DATE_FORMAT('%s', '%%Y-%%m')" %  date
