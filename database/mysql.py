@@ -20,11 +20,11 @@ class mysql:
         self.con.close()
         self.logfile.close()
 
-    def executeQuery(query):
+    def executeQuery(self, query):
         self.cur.execute(query)
         return self.cur.fetchall()
 
-    def insertUser2DB(user):
+    def insertUser2DB(self, user):
         insert = "INSERT INTO user_t(id, contributors_enabled, description, favourites_count, followers_count, "
         insert += "geo_enabled, lang, location, name, notifications, protected, screen_name, statuses_count, "
         insert += "time_zone, url, utc_offset, verified, created_at, friends_count) "
@@ -37,7 +37,7 @@ class mysql:
         except MySQLdb.Error, e:
             writeLog('insertUser2DB()', e)
 
-    def insertTweet2DB(tweet):
+    def insertTweet2DB(self, tweet):
         insert = "INSERT INTO status_t(id, favorited, in_reply_to_screen_name, in_reply_to_user_id, "
         insert += "in_reply_to_status_id, truncated, text, user_id, retweet_count, retweeted, "
         insert += "created_at, relative_created_at) "
