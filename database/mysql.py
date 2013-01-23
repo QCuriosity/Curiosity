@@ -20,6 +20,13 @@ class mysql:
         self.con.close()
         self.logfile.close()
 
+    def executeUpdate(self, update):
+        try:
+            self.cur.execute(update)
+            self.con.commit()
+        except MySQLdb.Error, e:
+            writeLog('insertUser2DB()', e)
+
     def executeQuery(self, query):
         self.cur.execute(query)
         return self.cur.fetchall()
@@ -47,6 +54,7 @@ class mysql:
         try:
             self.cur.execute(insert, tweet)
             self.con.commit()
+            print "%s: %s" % (tweet['created_at'], tweet['text'])
         except MySQLdb.Error, e:
             self.writeLog('insertTweet2DB()', e)
 
