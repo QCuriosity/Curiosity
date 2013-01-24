@@ -7,11 +7,13 @@ def generateDateList(startYear, count):
     monthList = []
     for y in xrange(count):
         for m in xrange(1, 13):
+            if y == 1 and m == 10:
+                break
             pattern = "%d-%d-01" % (startYear+y, m)
             monthList.append(pattern)
     return monthList
 
-monthList = generateDateList(2010, 2)
+monthList = generateDateList(2011, 2)
 
 host = '10.30.154.216'
 user = 'curiosity'
@@ -55,11 +57,11 @@ def saveMonthlyTweetCount(monthList):
         db.computeAndSaveMonthlyTweetCount(m)
     db.close()
 
-languageKeywords = ['python', 'c#', 'c++', 'basic', 'java', 'ada', 'matlab', 'lua', 'assembly', 'lisp', 'ruby', 'perl', 'bash', 'fortran']
+languageKeywords = ['python', 'c#', 'c++', 'basic', 'java', 'lua', 'assembly', 'lisp', 'ruby', 'perl', 'fortran']
 companyKeywords = ['dell', 'microsoft', 'google', 'apple', 'amazon', 'facebook', 'twitter', 'ibm', 'hp']
-#keywords =['the']
+keywords =['obama', 'Romney']
 
 #saveMonthlyTweetCount(monthList)
 #plotMonthlyTrend(languageKeywords, "programming language trend", monthList)
-plotMonthlyTrend(companyKeywords, "company keyword trend", monthList)
+#plotMonthlyTrend(companyKeywords, "company keyword trend", monthList)
 
