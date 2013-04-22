@@ -15,11 +15,6 @@ def generateDateList(startYear, count):
 
 monthList = generateDateList(2011, 2)
 
-host = '10.30.154.216'
-user = 'curiosity'
-passwd = 'password'
-dbName = 'curiosity'
-
 def plotMonthlyTrend(keywords, title, monthList):
     db = mysql(host, user, passwd, dbName)
     db.connect()
